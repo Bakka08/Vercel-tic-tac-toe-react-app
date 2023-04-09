@@ -8,7 +8,7 @@ function App() {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
-    height: "827px",
+    height: "1000px",
   };
   const marg = {
     height: "70px",
