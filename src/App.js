@@ -8,7 +8,7 @@ function App() {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
-    height: "1000px",
+    height: "827px",
   };
   const marg = {
     height: "70px",
@@ -47,6 +47,11 @@ function App() {
     setShowFourthDiv(true);
   };
   
+  const [selectedValue, setSelectedValue] = useState("X");
+
+  const handleButtonClick = (value) => {
+    setSelectedValue(value);
+  };
   
   return (
     <div id="bd" style={gif}>
@@ -88,7 +93,7 @@ function App() {
                 width: "98%",
                 border: "0px",
                 borderRadius: "0px",
-                backgroundColor: "#134cae",
+                backgroundColor: selectedValue === "X" ? "#134cae" : "#be4bb1" ,
                 height: "50%",
                 fontFamily: "cursive",
                 display: "flex",
@@ -96,7 +101,7 @@ function App() {
                 alignItems: "center",
                 borderTopRightRadius: "20px",
                 borderTopLeftRadius: "20px",
-              }}
+              }}onClick={() => handleButtonClick("X")}
             >
               X
             </button>
@@ -108,14 +113,14 @@ function App() {
                 border: "0px",
                 borderRadius: "0px",
                 height: "50%",
-                backgroundColor: "#be4bb1",
+                backgroundColor: selectedValue === "O" ? "#134cae" : "#be4bb1" ,
                 fontFamily: "cursive",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 borderBottomLeftRadius: "20px",
                 borderBottomRightRadius: "20px",
-              }}
+              }}onClick={() => handleButtonClick("O")}
             >
               O
             </button>
