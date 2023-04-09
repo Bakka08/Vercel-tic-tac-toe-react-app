@@ -183,8 +183,7 @@ function App() {
           backgroundColor: "white",
           borderTopRightRadius: "35px",
           borderTopLeftRadius: "35px",
-        }}
-      >
+        }}>
         <div>
           <button
             className="btn btn-primary disabled fw-bold text-start"
@@ -197,8 +196,7 @@ function App() {
               marginLeft: "10px",
               marginTop: "10px",
             }}
-            disabled
-          >
+            disabled>
             <span style={{ color: "rgb(171, 24, 166)" }}>X </span>TURN
           </button>
           <button
