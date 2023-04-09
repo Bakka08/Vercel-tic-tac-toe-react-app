@@ -11,7 +11,7 @@ function App() {
     height: "827px",
   };
   const marg = {
-    height: "100px",
+    height: "70px",
   };
   
   const [showFirstDiv, setShowFirstDiv] = useState(true);
