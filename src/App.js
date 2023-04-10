@@ -1,6 +1,6 @@
 import "./App.css";
 import myGif from "./wp2757868-wallpaper-gif.gif";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 function App() {
   const gif = {
@@ -47,7 +47,7 @@ function App() {
     setShowThirdDiv(false);
     setShowFourthDiv(false);
     setShowFifthhDiv(false);
-    setBoard((Array(9).fill(null)));
+    
   };
   
   const handleShowThirdDiv = () => {
@@ -56,7 +56,7 @@ function App() {
     setShowThirdDiv(true);
     setShowFourthDiv(false);
     setShowFifthhDiv(false);
-    setBoard((Array(9).fill(null)));
+    
   };
   
   const handleShowFourthDiv = () => {
@@ -105,10 +105,10 @@ function App() {
   setShowFourthDiv(false);
   setShowFifthhDiv(false);
   setBoard((Array(9).fill(null)));
-  setcountDraw=0;
+  setcountDraw(0);
   setwin('null');
-  setcountLose=0;
-  setcountWin=0;
+  setcountLose(0);
+  setcountWin(0);
 
 
  }}
@@ -187,6 +187,91 @@ function App() {
     status = ` ${isXNext ? 'X' : 'O'}`;
   }
   
+  const BOARD_SIZE = 3;
+
+
+  const [board2, setBoard2] = useState(Array(BOARD_SIZE ** 2).fill(null));
+  const [isXNext2, setIsXNext2] = useState(true);
+  const [winner2, setWinner2] = useState(null);
+
+  useEffect(() => {
+    const calculateWinner2 = (squares) => {
+      const winningLines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      for (let i = 0; i < winningLines.length; i++) {
+        const [a, b, c] = winningLines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+          return squares[a];
+        }
+      }
+
+      if (!squares.includes(null)) {
+        return "draw";
+      }
+
+      return null;
+    };
+
+    const winner = calculateWinner2(board2);
+    setWinner2(winner);
+
+    if (!winner && !isXNext2) {
+      // Computer's turn
+      const emptySquares = board2.reduce((acc, curr, idx) => {
+        if (curr === null) {
+          acc.push(idx);
+        }
+        return acc;
+      }, []);
+
+      const randomIndex = Math.floor(Math.random() * emptySquares.length);
+      const computerMove = emptySquares[randomIndex];
+      const newBoard = [...board2];
+      newBoard[computerMove] = "O";
+      setBoard2(newBoard);
+      setIsXNext2(true);
+    }
+  }, [board2, isXNext2]);
+
+  const handleclick2 = (index) => {
+    if (board2[index] || winner2) {
+      return;
+    }
+
+    const newBoard = [...board2];
+    newBoard[index] = isXNext2 ? "X" : "O";
+    setBoard2(newBoard);
+    setIsXNext2(!isXNext2);
+  };
+
+  const rendersquare2 = (index) => {
+    return (
+      <button  onClick={() => handleclick2(index)}         className="btn btn-primary text-uppercase fs-1 fw-bold" type="button" style={{ height: "150px", marginLeft: "10px", marginRight: "10px", width: "150px", backgroundColor: "none",borderRadius:"25px" }}
+      >
+        {board2[index]}
+      </button>
+    );
+  };
+
+  const renderstatus2 = () => {
+    if (winner2) {
+      return winner2 === "draw" ? "It's a draw!" : `${winner2} wins!`;
+      
+    } else {
+      return ` ${isXNext2 ? "X" : "O"}`;
+    }
+  };
+
+
   
   return (
     <div id="bd" style={gif}>
@@ -431,7 +516,7 @@ function App() {
   
       </div>;
 
-      <div id="vscomp" style={{ display: showSecondDiv ? 'block' : 'none' }}>
+      <div id="vscomp" style={{ display: showSecondDiv   ? 'block' : 'none' }}>
   <div>
     <div className="container">
       <div
@@ -443,8 +528,7 @@ function App() {
           backgroundColor: "white",
           borderTopRightRadius: "35px",
           borderTopLeftRadius: "35px",
-        }}
-      >
+        }}>
         <div>
           <button
             className="btn btn-primary disabled fw-bold text-start"
@@ -457,9 +541,8 @@ function App() {
               marginLeft: "10px",
               marginTop: "10px",
             }}
-            disabled
-          >
-            <span style={{ color: "rgb(171, 24, 166)" }}>X </span>TURN
+            disabled>
+            <span style={{ color: "rgb(171, 24, 166)" }}>{renderstatus2()} </span>TURN
           </button>
           <button
             className="btn btn-primary fw-bold text-start"
@@ -479,146 +562,32 @@ function App() {
           />
         </div>
         <div style={{ height: "70%" }}>
-          <div style={{ marginTop: "30px" }}>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "14px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-                textAlign: "center",
-              }}
-            >
-              <strong>X</strong>
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-          </div>
-          <div style={{ marginTop: "10px" }}>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "14px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "border-radius: 0px",
-                backgroundColor: "#134cae",
-                width: "150px",
-                borderRadius: "0px",
-              }}
-            >
-              X
-            </button>
-          </div>
-          <div style={{ marginTop: "10px" }}>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "14px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-            <button
-              className="btn btn-primary text-uppercase fs-1 fw-bold"
-              type="button"
-              style={{
-                height: "150px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                borderRadius: "0px",
-                backgroundColor: "#134cae",
-              }}
-            >
-              X
-            </button>
-          </div>
+        <div className="status">
+      <br></br>
+      <div className="board-row" style={{marginBottom: '10px'}}>
+        {rendersquare2(0)}
+        {rendersquare2(1)}
+        {rendersquare2(2)}
+      </div>
+      <div className="board-row" style={{marginBottom: '10px'}}>
+        {rendersquare2(3)}
+        {rendersquare2(4)}
+        {rendersquare2(5)}
+      </div>
+      <div className="board-row" >
+        {rendersquare2(6)}
+        {rendersquare2(7)}
+        {rendersquare2(8)}
+      </div>
+    </div>
+  
           <div style={{ marginTop: "10px" }}>
             <button
               className="btn btn-primary disabled"
               type="button"
               style={{
                 height: "100px",
-                marginLeft: "15px",
+                marginLeft: "11px",
                 marginRight: "10px",
                 width: "150px",
                 backgroundColor: "white",
@@ -626,8 +595,23 @@ function App() {
               }}
               disabled
             >
-              &nbsp; &nbsp; &nbsp; &nbsp;<strong> X (You)&nbsp; </strong>&nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp;#&nbsp;&nbsp;
+             <strong>&nbsp;{selectedValue}(Player1)&nbsp; {counWin}</strong></button>
+            <button
+              className="btn btn-primary disabled"
+              type="button"
+              style={{
+                height: "100px",
+                marginLeft: "10px",
+                marginRight: "10px",
+                width: "150px",
+                backgroundColor: "white",
+                color: "black",
+              }}
+              disabled
+            >
+            
+              <strong>&nbsp;(TIES)&nbsp; {counDraw}</strong>
+              
             </button>
             <button
               className="btn btn-primary disabled"
@@ -642,31 +626,14 @@ function App() {
               }}
               disabled
             >
-              <strong>
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Ties&nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; #
-              </strong>
-            </button>
-            <button
-              className="btn btn-primary disabled"
-              type="button"
-              style={{
-                height: "100px",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "150px",
-                backgroundColor: "white",
-                color: "black",
-              }}
-              disabled
-            >
-              <strong>&nbsp;O(COMPUTER)&nbsp; #</strong>
+              <strong>&nbsp;{output}(Computer)&nbsp; {counLose}</strong>
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
       </div>;
 
       <div id="leave" style={{ display: showFourthDiv ? 'block' : 'none' }}>
@@ -681,7 +648,7 @@ function App() {
           <div style={{width: '30%', margin: 'auto', height: '150px', marginBottom: '20px', backgroundColor: 'none', borderRadius: '35px'}}>
             <h4 className="font-monospace fw-bold text-center" style={{marginTop: '20px'}}>DO YOU WANT TO RESTART YOUR GAME ?</h4>
             <div style={{display: 'flex', alignItems: 'center'}}>
-            <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '50%', borderRadius: '0px', backgroundColor: 'white', color: 'black', border: '0px'}} ><strong>No thanks&nbsp;</strong></button> 
+            <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '50%', borderRadius: '0px', backgroundColor: 'white', color: 'black', border: '0px'}}onClick={handleShowThirdDiv} ><strong>No thanks&nbsp;</strong></button> 
             <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '50%', borderRadius: '0px', backgroundColor: 'white', color: 'black', border: '0px'}}onClick={handleShowFirst}><strong>Yes Do it&nbsp;</strong></button>
             </div>
           </div>
@@ -692,7 +659,7 @@ function App() {
   
       </div>
 
-      <div id="main" className="container" style={{ display: showFifthDiv ? 'block' : 'none' }}>
+      <div id="pop" className="container" style={{ display: showFifthDiv ? 'block' : 'none' }}>
   
 
       <div className="container">
@@ -700,7 +667,7 @@ function App() {
           <h4 className="font-monospace fw-bold text-center" style={{marginTop: '20px', display: w  ? 'block' : 'none' }}>{win}&nbsp;TAKES THE ROUND</h4>
           <h4 className="font-monospace fw-bold text-center" style={{marginTop: '20px', display: d  ? 'block' : 'none' }}>&nbsp;it's a tie</h4>
           <div style={{display: 'flex', alignItems: 'center'}}>
-            <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '30%', borderRadius: '0px', backgroundColor: 'var(--bs-white)', color: 'black', border: '0px'}} onClick={handleShowFirst}><strong>Quite</strong></button>
+            <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '30%', borderRadius: '0px', backgroundColor: 'var(--bs-white)', color: 'black', border: '0px'}} onClick={quite}><strong>Quite</strong></button>
             <button className="btn btn-primary" type="button" style={{margin: '0 10px', width: '80%', borderRadius: '0px', backgroundColor: '#31ccee', color: 'black', border: '0px'}} onClick={count}><strong>Next Round</strong></button></div>
         </div>
       </div>
