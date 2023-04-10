@@ -8,7 +8,8 @@ function App() {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
-    height: "827px",
+    height: '100vh',
+    margin: '0',
   };
   const marg = {
     height: "70px",
