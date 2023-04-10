@@ -124,6 +124,8 @@ function App() {
     setShowThirdDiv(true);
     setShowFourthDiv(false);
     setShowFifthhDiv(false);
+    setShowFifthhDiv2(false);
+    setShowFourthDiv2(false);
  }
  function d2(){
   
@@ -132,6 +134,8 @@ function App() {
     setShowThirdDiv(false);
     setShowFourthDiv(false);
     setShowFifthhDiv(false);
+    setShowFifthhDiv2(false);
+    setShowFourthDiv2(false);
  }
   const count = () => {{
     if(win === selectedValue){
