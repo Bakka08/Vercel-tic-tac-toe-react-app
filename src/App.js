@@ -173,6 +173,9 @@ function App() {
   setShowThirdDiv(false);
   setShowFourthDiv(false);
   setShowFifthhDiv(false);
+  setShowFifthhDiv(false);
+    setShowFifthhDiv2(false);
+    setShowFourthDiv2(false);
   setBoard((Array(9).fill(null)));
   setcountDraw(0);
   setwin('null');
